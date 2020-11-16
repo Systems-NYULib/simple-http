@@ -1,0 +1,11 @@
+version: '3'
+services:
+
+  simple-http:
+    build:
+      context: .
+      dockerfile: Dockerfile-simple-http
+    image: centos:7
+    ports:
+      - "8080:80"
+    container_name: simple-http
