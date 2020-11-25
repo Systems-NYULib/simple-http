@@ -1,0 +1,17 @@
+version: 2.1
+
+jobs:
+  build-and-test:       # actual job to run 
+    docker:
+      - image: quay.io/nyulibraries/circleci_docker:19.03.13-dc-1.27.4-0   # docker file with docker-compose installed
+    working_directory: ~/app
+    steps:
+      - checkout
+      - run:
+          command: docker-compose build 
+          name: Test
+
+workflows:
+  main:
+    jobs:
+      - build-and-test    # name of the job to reference run
