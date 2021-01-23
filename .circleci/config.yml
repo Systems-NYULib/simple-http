@@ -12,17 +12,17 @@ jobs:
           command: docker-compose build 
           name: Test
 
-  auth:                           # authenticate to quay.io
+  auth_quay:                       # authenticate to quay.io
     run:
-    name: Authenticate with Quay
-    command: |
-      docker login -u "$QUAY_USERNAME" --password "$QUAY_PASSWORD" quay.io
+      name: Authenticate with Quay
+      command: |
+        docker login -u "$QUAY_USERNAME" --password "$QUAY_PASSWORD" quay.io
 
 
   push_to_quay:                   # push docker image to quay.io
     run:
       name: Push Docker To Quay
-      docker push quay.io/nyulibraries/simple-http:latest
+      docker push quay.io/ym26/simple-http:latest
   
 
 workflows:
@@ -30,7 +30,7 @@ workflows:
     jobs:
       requires:
       - build-and-test      # name of the job to reference run
-      - auth                # authenticate to quay.io
+      - auth_quay           # authenticate to quay.io
       - push_to_quay        # push image to quay.io
           
 
