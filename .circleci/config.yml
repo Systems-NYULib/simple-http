@@ -26,6 +26,6 @@ workflows:
   main:
     jobs:
       - build-and-test      # name of the job to reference run
-      - push_to_quay        # push image to quay.io
+      - push_to_quay        # push image to quay.io 
           
 
