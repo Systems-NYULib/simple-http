@@ -22,7 +22,7 @@ jobs:
   push_to_quay:                   # push docker image to quay.io
     run:
       name: Push Docker To Quay
-      docker push quay.io/ym26/simple-http:latest
+      docker push quay.io/nyulibraries/simple-http:latest
   
 
 workflows:
