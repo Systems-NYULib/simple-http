@@ -23,7 +23,7 @@ jobs:
     run:
       name: Push Docker To Quay
       command: |
-      docker push quay.io/ym26/simple-http:latest
+        docker push quay.io/ym26/simple-http:latest
   
 
 workflows:
