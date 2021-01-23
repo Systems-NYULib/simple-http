@@ -14,11 +14,12 @@ jobs:
 
 
   push_to_quay:                   # push docker image to quay.io
-    run:
-      name: Push Docker To Quay
-      command: |
-        docker login -u "$QUAY_USERNAME" -p "$QUAY_PASSWORD" quay.io
-        docker push quay.io/ym26/simple-http:latest
+    steps:
+      run:
+        name: Push Docker To Quay
+        command: |
+          docker login -u "$QUAY_USERNAME" -p "$QUAY_PASSWORD" quay.io
+          docker push quay.io/ym26/simple-http:latest
   
 
 workflows:
