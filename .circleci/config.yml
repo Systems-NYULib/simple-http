@@ -22,6 +22,7 @@ jobs:
   push_to_quay:                   # push docker image to quay.io
     run:
       name: Push Docker To Quay
+      command: |
       docker push quay.io/ym26/simple-http:latest
   
 
