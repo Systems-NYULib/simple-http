@@ -29,7 +29,6 @@ jobs:
 workflows:
   main:
     jobs:
-      requires:
       - build-and-test      # name of the job to reference run
       - auth_quay           # authenticate to quay.io
       - push_to_quay        # push image to quay.io
