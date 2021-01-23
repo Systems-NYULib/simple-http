@@ -17,7 +17,7 @@ jobs:
     run:
       name: Push Docker To Quay
       command: |
-        docker login -u "$QUAY_USERNAME" --password "$QUAY_PASSWORD" quay.io
+        docker login -u "$QUAY_USERNAME" -p "$QUAY_PASSWORD" quay.io
         docker push quay.io/ym26/simple-http:latest
   
 
