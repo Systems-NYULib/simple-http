@@ -18,9 +18,9 @@ push_to_quay: &push_to_quay
   run:
     name: Push docker image to quay
     command: |
-      docker tag simple-http quay.io/ym26/simple-http:latest
+      docker tag simple-http quay.io/ym26/simple-http
       docker login -u="$QUAY_USERNAME" -p="$QUAY_PASSWORD" quay.io
-      docker push quay.io/ym26/simple-http:latest
+      docker push quay.io/ym26/simple-http
 
 
 
