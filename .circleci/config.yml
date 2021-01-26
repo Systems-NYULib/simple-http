@@ -6,6 +6,7 @@ docker-defaults: &docker-defaults
   working_directory: ~/app
 
 
+
 # declare anchor function &build_docker
 build_docker: &build_docker
   run:
@@ -13,13 +14,22 @@ build_docker: &build_docker
     command: docker-compose build
 
 
+
+# declare anchor function &auth_quay
+auth_quay: &auth_quay
+  run:
+    name: Authenticate to Quay
+    command: |
+      docker login -u="$QUAY_USERNAME" -p="$QUAY_PASSWORD" quay.io
+
+
+
 # declare anchor function &push_to_quay
 push_to_quay: &push_to_quay
   run:
     name: Push docker image to quay
     command: |
-      docker tag simple-http quay.io/ym26/simple-http:latest
-      docker login -u="$QUAY_USERNAME" -p="$QUAY_PASSWORD" quay.io
+      docker tag centos:7 quay.io/ym26/simple-http:latest
       docker push quay.io/ym26/simple-http:latest
 
 
@@ -37,6 +47,8 @@ jobs:
       - setup_remote_docker
       # call build_docker function (e.g: &build_docker)
       - <<: *build_docker
+      # call auth_quay function (e.g: &auth_quay)
+      - <<: *auth_quay
       # call push_to_quay function (e.g: &push_to_quay)
       - <<: *push_to_quay
 
