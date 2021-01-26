@@ -28,6 +28,7 @@ auth_quay: &auth_quay
 push_to_quay: &push_to_quay
   run:
     name: Push docker image to quay
+    # docker tag takes image from Dockerfile and gives it custom tag to push to quay
     command: |
       docker tag centos:7 quay.io/ym26/simple-http:latest
       docker push quay.io/ym26/simple-http:latest
