@@ -1,31 +1,46 @@
+
+docker-defaults: &docker-defaults   # declare anchor function &docker-defaults
+  docker:
+    - image: quay.io/nyulibraries/circleci_docker:19.03.13-dc-1.27.4-0  # docker file with docker-compose installed
+  working_directory: ~/app
+
+
+
+build_docker: &build_docker         # declare anchor function &build_docker
+  run:
+    name: Build docker image
+    command: docker-compose build 
+
+
+
+push_to_quay: &push_to_quay         # declare anchor function &push_to_quay
+  run:
+    name: Push docker image to quay
+    command: |
+      docker login -u="$QUAY_USERNAME" -p="$QUAY_PASSWORD" quay.io
+      docker push quay.io/ym26/simple-http:latest
+
+
+
 version: 2.1
-
 jobs:
-  build-and-test:                 # actual job to run 
-    docker:
-      - image: quay.io/nyulibraries/circleci_docker:19.03.13-dc-1.27.4-0   # docker file with docker-compose installed
-    working_directory: ~/app      # working directory inside docker image
+  build-my-app:                     # actual job to run 
+    <<: *docker-defaults            # alias that calls anchor &docker-defaults. (e.g function call)
     steps:
-      - checkout                  # checks out github code
-      - setup_remote_docker       # sets up docker daemon to run docker commands
-      - run:
-          command: docker-compose build 
-          name: Test
+      - checkout                    # checks out github code
+      - setup_remote_docker         # sets up docker daemon to run docker commands
+      - <<: *build_docker           # call build_docker function (e.g: &build_docker)
+      - <<: *push_to_quay           # call push_to_quay function (e.g: &push_to_quay)
 
 
-  push_to_quay:                   # push docker image to quay.io
-    steps:
-      run:
-        name: Push Docker To Quay
-        command: |
-          docker login -u "$QUAY_USERNAME" -p "$QUAY_PASSWORD" quay.io
-          docker push quay.io/ym26/simple-http:latest
   
 
 workflows:
-  main:
+  version: 2.1
+  build:
     jobs:
-      - build-and-test      # name of the job to reference run
-      - push_to_quay        # push image to quay.io 
-          
+      - build-my-app                # name of the job to reference run
+      - push_to_quay                # push image to quay.io only after build-my-app succeeds
+          requires:
+            - build-my-app
 
