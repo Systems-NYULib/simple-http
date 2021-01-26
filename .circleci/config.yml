@@ -49,7 +49,7 @@ workflows:
       # name of the job to reference run
       - build-my-app
       # push image to quay.io only after build-my-app succeeds
-      - push_to_quay
+      - push_to_quay:
           requires:
             - build-my-app
 
