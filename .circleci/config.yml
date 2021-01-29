@@ -30,9 +30,14 @@ push_to_quay: &push_to_quay
     name: Push docker image to quay
     # docker tag takes image from Dockerfile and gives it custom tag to push to quay
     # ${CIRCLE_BRANCH//\//_} = circleci env variable with regex to repace forward slash with underscore
-    # ${CIRCLE_SHA1} = git hash commit
+    # ${CIRCLE_SHA1} = circleci env variable takes git hash commit
+    # Must tag twice first the ${CIRCLE_BRANCH} then {$CIRCLE_SHA1} hash.
     command: |
+      #docker tag centos:7 quay.io/ym26/simple-http:${CIRCLE_BRANCH//\//_}-${CIRCLE_SHA1}
+      #docker push quay.io/ym26/simple-http:${CIRCLE_BRANCH//\//_}-${CIRCLE_SHA1}
+      docker tag centos:7 quay.io/ym26/simple-http:${CIRCLE_BRANCH//\//_}
       docker tag centos:7 quay.io/ym26/simple-http:${CIRCLE_BRANCH//\//_}-${CIRCLE_SHA1}
+      docker push quay.io/ym26/simple-http:${CIRCLE_BRANCH//\//_}
       docker push quay.io/ym26/simple-http:${CIRCLE_BRANCH//\//_}-${CIRCLE_SHA1}
 
 
